@@ -351,6 +351,3 @@ if __name__ == '__main__':
     results_df = train_test_models(housing_prepared, housing_labels, housing)
     print()
     print(results_df)
-
-
-
