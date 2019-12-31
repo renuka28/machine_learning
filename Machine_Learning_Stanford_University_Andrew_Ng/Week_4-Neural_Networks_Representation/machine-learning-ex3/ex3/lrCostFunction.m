@@ -1,0 +1,75 @@
+function [J, grad] = lrCostFunction(theta, X, y, lambda)
+%LRCOSTFUNCTION Compute cost and gradient for logistic regression with 
+%regularization
+%   J = LRCOSTFUNCTION(theta, X, y, lambda) computes the cost of using
+%   theta as the parameter for regularized logistic regression and the
+%   gradient of the cost w.r.t. to the parameters. 
+
+% Initialize some useful values
+m = length(y); % number of training examples
+
+% You need to return the following variables correctly 
+J = 0;
+grad = zeros(size(theta));
+
+% ====================== YOUR CODE HERE ======================
+% Instructions: Compute the cost of a particular choice of theta.
+%               You should set J to the cost.
+%               Compute the partial derivatives and set grad to the partial
+%               derivatives of the cost w.r.t. each parameter in theta
+%
+% Hint: The computation of the cost function and gradients can be
+%       efficiently vectorized. For example, consider the computation
+%
+%           sigmoid(X * theta)
+%
+%       Each row of the resulting matrix will contain the value of the
+%       prediction for that example. You can make use of this to vectorize
+%       the cost function and gradient computations. 
+%
+% Hint: When computing the gradient of the regularized cost function, 
+%       there're many possible vectorized solutions, but one solution
+%       looks like:
+%           grad = (unregularized gradient for logistic regression)
+%           temp = theta; 
+%           temp(1) = 0;   % because we don't add anything for j = 0  
+%           grad = grad + YOUR_CODE_HERE (using the temp variable)
+%
+
+
+% Algorithm is similar to one without regularization with one change
+% add a factor to account for regulairzation for all except theta 0
+% - Calculate prediction using sigmoid function
+% - substitue the values in the cost function forumla
+% this is the same cost function we wrote in logistics regression 
+%(costFunctionReg.m) under ex2 folder. Just copy pasted the same.. 
+% Note that the ex3.pdf file asks us to write a unregularized cost function
+% but the file is named as lrCostFunction.m and the submission output says
+% it is graded as 'Regulalirzed Logistic Regression'. So i went ahead and wrote
+%regualized one 
+% i jumped hte gun.. actually later in pdf it asks us to add regularization 
+% got to read fully before implementing it :). Anyway i did no new implementation
+% as it is just a copy paste of previous exercise. So joke is on you Adnrews :)
+
+regTheta = theta;
+regTheta(1) = 0
+
+regularization_factor = (lambda / (2 * m))*sum(regTheta.^2)
+
+predictions = sigmoid(X * theta);
+J = (-1 / m) * sum(y.*log(predictions) + (1 - y).*log(1 - predictions)) + regularization_factor;
+prediction_error = predictions - y;
+grad = (1 / m) * (X' * prediction_error) + (lambda/m)*regTheta; 
+
+
+
+
+
+
+
+
+% =============================================================
+
+grad = grad(:);
+
+end
